@@ -1,0 +1,52 @@
+int main(argc,argv)
+int argc;
+char ** argv;
+{ 
+	param_file = fopen("param.txt","r");
+	out = stdout;
+	int num_macros = 0;
+	while(!feof(param_file))
+	{	char str[80];
+		int i =0;
+		fgets(str,80,param_file);
+	
+		printf("Macro %d\n",num_macros);
+		if(str[0] != ';')
+		{
+		printf("%s\n",str);
+		
+			int y =0;
+			while(str[i] !=';' )
+			{int z = 0;
+				while(str[i] != ',' &&  str[i] != ';' && str[i] != '$')
+				{
+				
+					macro_params[num_macros].params.param_list[y][z++] = str[i++];
+				
+				
+				}
+			
+				macro_params[num_macros].params.param_list[y][z] = '\0';
+				++y;
+				if(str[i] !=';')
+					++i;
+			
+			}
+			macro_params[num_macros].params.num_params = y;
+		}
+		else
+		{
+			macro_params[num_macros].params.num_params=0;
+		}
+		int p = 0;
+	
+		++i;
+		for(;str[i] != '$'&&str[i] !='\0';)
+			macro_params[num_macros].body[p++] = str[i++];
+		macro_params[num_macros].body[p] = '\0';
+	
+		num_macros++;
+	
+	}
+	num_macros--;
+	
